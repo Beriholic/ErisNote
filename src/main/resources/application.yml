@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: ErisNote
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/eris_note
+    username: root
+    password: 123456
+  data:
+    redis:
+      database: 1
+      host: 127.0.0.1
+      port: 6379
+      timeout: 10s
+    lettuce:
+      pool:
+        max-active: 200
+        max-wait: -1ms
+        max-idle: 10
+        min-idle: 0
+
+server:
+  port: 8080
+  max-http-request-header-size: 1MB
+
+
+jimmer:
+  dialect: org.babyfish.jimmer.sql.dialect.MySqlDialect
+  show-sql: true
+  pretty-sql: true
+  database-validation-mode: ERROR
+  client:
+    openapi:
+      path: /openapi.yml
+      ui-path: /openapi.html
+      properties:
+        info:
+          title: My Web Service
+          description: |
+            Restore the DTO explosion that was 
+            eliminated by server-side developers
+          version: 1.0
+    ts:
+      path: /ts.zip
+
+
+
+sa-token:
+  token-name: token
+  timeout: 2592000
+  active-timeout: -1
+  is-concurrent: true
+  is-share: true
+  token-style: simple-uuid
+  is-log: true
