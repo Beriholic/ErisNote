@@ -44,7 +44,11 @@
             @click="openNewNoteDialog">新建笔记
         </mdui-button>
         <mdui-divider class="m-4"/>
-        <div v-for="note in noteList" :key="note.id" class="flex flex-col m-2">
+        <mdui-text-field :value="searchContent" class="px-2" clearable icon="search" label="搜索"
+                         variant="outlined"
+                         @input="searchNoteHandler($event.target.value)"/>
+        <mdui-divider class="m-4"/>
+        <div v-for="note in noteListView" :key="note.id" class="flex flex-col m-2">
           <mdui-card class="w-full">
             <mdui-list-item @click="loadNote(note.id)" @contextmenu.prevent="openDeleteNoteMenu(note.id,note.title)">
               {{ note.title }}
@@ -103,6 +107,7 @@ const fetchNoteList = async () => {
   }
 
   noteList.value = resp.data
+  noteListView.value = resp.data
 }
 const fetchCategoriesList = async () => {
   const resp = await api.categoriesController.getCategories();
@@ -144,6 +149,7 @@ const closeDialog = () => {
 
 const categoriesList = ref<Array<CategoriesDto['CategoriesController/CATEGORIES_BASE']>>([])
 const noteList = ref<Array<NoteDto['NoteController/NOTE_WITH_TITLE']>>([])
+const noteListView = ref([])
 const curNote = ref({
   id: "",
   content: "",
@@ -170,6 +176,20 @@ const curDeleteNote = ref({
   id: "",
   title: ""
 })
+
+const searchContent = ref("")
+const searchNoteHandler = (input: string) => {
+  searchContent.value = input
+
+  if (input.length === 0) {
+    noteListView.value = noteList.value
+    return
+  }
+
+  noteListView.value = noteList.value.filter((item) => {
+    return item.title.includes(input)
+  })
+}
 
 const openDeleteNoteMenu = (id: string, title: string) => {
   curDeleteNote.value.id = id
@@ -203,7 +223,6 @@ const newNote = () => {
     alert("笔记未指定分类")
     return
   }
-
 
   curNote.value = {
     id: "",

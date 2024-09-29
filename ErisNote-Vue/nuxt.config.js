@@ -19,6 +19,10 @@ export default defineNuxtConfig({
         "pinia-plugin-persistedstate/nuxt"
     ],
 
+    plugins: [
+        {src: '~/plugins/theme.js'}
+    ],
+
     pinia: {
         storesDirs: ['./stores/**'],
     },
