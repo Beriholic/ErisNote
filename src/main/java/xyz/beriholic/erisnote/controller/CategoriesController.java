@@ -9,6 +9,7 @@ import xyz.beriholic.erisnote.model.entity.Fetchers;
 import xyz.beriholic.erisnote.model.entity.Note;
 import xyz.beriholic.erisnote.model.except.ErisResult;
 import xyz.beriholic.erisnote.repository.CategoriesRepository;
+import xyz.beriholic.erisnote.repository.NoteRepository;
 
 import java.util.List;
 
@@ -16,10 +17,13 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoriesController {
     private static final Fetcher<Categories> CATEGORIES_BASE = Fetchers.CATEGORIES_FETCHER.allScalarFields();
+    private static final Fetcher<Note> NOTE_IN_CATEGORIES = Fetchers.NOTE_FETCHER.title();
     private final CategoriesRepository categoriesRepository;
+    private final NoteRepository noteRepository;
 
-    public CategoriesController(CategoriesRepository categoriesRepository) {
+    public CategoriesController(CategoriesRepository categoriesRepository, NoteRepository noteRepository) {
         this.categoriesRepository = categoriesRepository;
+        this.noteRepository = noteRepository;
     }
 
     @GetMapping("/list")
@@ -33,17 +37,40 @@ public class CategoriesController {
     }
 
     @GetMapping("{id}")
-    public ErisResult<List<Note>> getCategoriesNotes(@PathVariable String id) {
-        return null;
+    public ErisResult<List<@FetchBy("NOTE_IN_CATEGORIES") Note>> getCategoriesNotes(@PathVariable String id) {
+        var uid = StpUtil.getLoginIdAsLong();
+
+
+        var notes = noteRepository.findNotes(
+                null,
+                uid,
+                Long.parseLong(id),
+                NOTE_IN_CATEGORIES
+        );
+
+        return ErisResult.ok(notes);
     }
 
     @PostMapping("/new")
     public ErisResult<Void> newCategories(@RequestParam String name) {
-        return null;
+        var uid = StpUtil.getLoginIdAsLong();
+
+
+        categoriesRepository.newCategories(uid, name);
+
+
+        return ErisResult.ok();
     }
 
     @PostMapping("/delete")
-    public ErisResult<Void> deleteCategories(@RequestParam Long id) {
-        return null;
+    public ErisResult<Void> deleteCategories(@RequestParam String id) {
+        var uid = StpUtil.getLoginIdAsLong();
+
+        categoriesRepository.deleteCategories(
+                Long.parseLong(id),
+                uid
+        );
+
+        return ErisResult.ok();
     }
 }

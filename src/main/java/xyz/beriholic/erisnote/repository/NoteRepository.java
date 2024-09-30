@@ -25,11 +25,13 @@ public class NoteRepository {
     public List<Note> findNotes(
             @Nullable Long noteId,
             long uid,
+            @Nullable Long categoriesId,
             Fetcher<Note> fetcher
     ) {
         var dbNotes = sqlClient.createQuery(NOTE_TABLE)
                 .where(NOTE_TABLE.user().id().eq(uid))
                 .where(NOTE_TABLE.id().eqIf(noteId))
+                .where(NOTE_TABLE.categoriesId().eqIf(categoriesId))
                 .select(NOTE_TABLE.fetch(fetcher))
                 .execute();
 

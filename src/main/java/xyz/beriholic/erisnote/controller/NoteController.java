@@ -36,6 +36,7 @@ public class NoteController {
         var notes = noteRepository.findNotes(
                 null,
                 uid,
+                null,
                 NOTE_WITH_TITLE
         );
         return ErisResult.ok(notes);
@@ -50,6 +51,7 @@ public class NoteController {
         var note = noteRepository.findNotes(
                 Long.parseLong(id),
                 uid,
+                null,
                 NOTE_DETAIL
         );
 
