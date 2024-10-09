@@ -27,8 +27,10 @@ const password = ref('')
 
 const loginHandler = async () => {
   const resp = await api.userController.login({
-    username: username.value,
-    password: password.value
+    body:{
+      username: username.value,
+      password: password.value
+    }
   })
 
   if (resp.code !== 200) {

@@ -32,26 +32,26 @@ const form = ref({
   confirmPassword: ""
 })
 
-const registerHandler = () => {
+const registerHandler = async() => {
   if (form.value.password !== form.value.confirmPassword) {
     alert("密码不一致")
     return
   }
-  useFetch("/api/user/register", {
-    method: "POST",
-    query: {
+  const resp = await api.userController.register({
+    body:{
       username: form.value.username,
       password: form.value.password
     }
-  }).then(res => {
-    const code = res.data.value.code
-    if (code === 200) {
-      alert("注册成功")
-      navigateTo("/login")
-    } else {
-      alert(res.data.value.msg)
-    }
   })
+
+  if (resp.code!==200){
+    const msg="注册失败"
+    alert(msg)
+    console.log(msg+": "+resp.msg)
+  }else {
+    alert("注册成功")
+    navigateTo("/")
+  }
 }
 
 </script>

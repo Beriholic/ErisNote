@@ -68,13 +68,13 @@ public class NoteController {
 
     @PostMapping("/new")
     public ErisResult<Void> newNote(
-            @RequestBody NewNoteInput input
+            @RequestBody NewNoteInput req
     ) {
-        log.info("title: {}, content: {}, categoriesId: {}", input.getTitle(), input.getContent(), input.getCategoriesId());
+        log.info("title: {}, content: {}, categoriesId: {}", req.getTitle(), req.getContent(), req.getCategoriesId());
 
         var uid = StpUtil.getLoginIdAsLong();
 
-        noteRepository.saveNote(uid, Long.parseLong(input.getCategoriesId()), input.getTitle(), input.getContent());
+        noteRepository.saveNote(uid, Long.parseLong(req.getCategoriesId()), req.getTitle(), req.getContent());
 
         return ErisResult.ok();
     }

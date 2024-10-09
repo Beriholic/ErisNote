@@ -1,5 +1,5 @@
 import type {Executor} from '../';
-import type {ErisResult, Void} from '../model/static/';
+import type {ErisResult, UserRegisterInput, Void} from '../model/static/';
 
 export class UserController {
     
@@ -16,19 +16,7 @@ export class UserController {
         ErisResult<Void>
     > = async(options) => {
         let _uri = '/user/login';
-        let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
-        let _value: any = undefined;
-        _value = options.username;
-        _uri += _separator
-        _uri += 'username='
-        _uri += encodeURIComponent(_value);
-        _separator = '&';
-        _value = options.password;
-        _uri += _separator
-        _uri += 'password='
-        _uri += encodeURIComponent(_value);
-        _separator = '&';
-        return (await this.executor({uri: _uri, method: 'POST'})) as Promise<ErisResult<Void>>;
+        return (await this.executor({uri: _uri, method: 'POST', body: options.body})) as Promise<ErisResult<Void>>;
     }
     
     readonly logout: () => Promise<
@@ -42,30 +30,16 @@ export class UserController {
         ErisResult<Void>
     > = async(options) => {
         let _uri = '/user/register';
-        let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
-        let _value: any = undefined;
-        _value = options.username;
-        _uri += _separator
-        _uri += 'username='
-        _uri += encodeURIComponent(_value);
-        _separator = '&';
-        _value = options.password;
-        _uri += _separator
-        _uri += 'password='
-        _uri += encodeURIComponent(_value);
-        _separator = '&';
-        return (await this.executor({uri: _uri, method: 'POST'})) as Promise<ErisResult<Void>>;
+        return (await this.executor({uri: _uri, method: 'POST', body: options.body})) as Promise<ErisResult<Void>>;
     }
 }
 
 export type UserControllerOptions = {
     'register': {
-        readonly username: string, 
-        readonly password: string
+        readonly body: UserRegisterInput
     }, 
     'login': {
-        readonly username: string, 
-        readonly password: string
+        readonly body: UserRegisterInput
     }, 
     'check': {}, 
     'logout': {}

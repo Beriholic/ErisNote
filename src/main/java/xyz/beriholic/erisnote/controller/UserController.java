@@ -3,10 +3,11 @@ package xyz.beriholic.erisnote.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.beriholic.erisnote.model.entity.Fetchers;
+import xyz.beriholic.erisnote.model.entity.dto.UserRegisterInput;
 import xyz.beriholic.erisnote.model.except.ErisResult;
 import xyz.beriholic.erisnote.repository.UserRepository;
 import xyz.beriholic.erisnote.utils.PasswordUtil;
@@ -25,22 +26,21 @@ public class UserController {
 
     @PostMapping("/register")
     public ErisResult<Void> register(
-            @RequestParam String username,
-            @RequestParam String password
+            @RequestBody UserRegisterInput req
     ) {
         Long uid = StpUtil.getLoginIdAsLong();
-        var hashPassword = PasswordUtil.encrypt(password);
-        userRepository.saveUser(uid, username, hashPassword);
+
+        var hashPassword = PasswordUtil.encrypt(req.getPassword());
+        userRepository.saveUser(uid, req.getUsername(), hashPassword);
         return ErisResult.ok();
     }
 
     @PostMapping("/login")
     public ErisResult<Void> login(
-            @RequestParam String username,
-            @RequestParam String password
+            @RequestBody UserRegisterInput req
     ) {
         var dbUser = userRepository.findUser(
-                username,
+                req.getUsername(),
                 Fetchers.USER_FETCHER.allScalarFields()
         );
 
@@ -50,7 +50,7 @@ public class UserController {
             return ErisResult.fail(msg);
         }
 
-        if (!PasswordUtil.check(password, dbUser.password())) {
+        if (!PasswordUtil.check(req.getPassword(), dbUser.password())) {
             var msg = "登陆失败，密码或账户名错误";
             log.error(msg);
             return ErisResult.fail(msg);
