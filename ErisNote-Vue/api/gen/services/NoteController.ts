@@ -1,6 +1,6 @@
 import type {Executor} from '../';
 import type {NoteDto} from '../model/dto/';
-import type {ErisResult, Void} from '../model/static/';
+import type {ErisResult, NewNoteRequest, Void} from '../model/static/';
 
 export class NoteController {
     
@@ -45,24 +45,7 @@ export class NoteController {
         ErisResult<Void>
     > = async(options) => {
         let _uri = '/note/new';
-        let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
-        let _value: any = undefined;
-        _value = options.title;
-        _uri += _separator
-        _uri += 'title='
-        _uri += encodeURIComponent(_value);
-        _separator = '&';
-        _value = options.content;
-        _uri += _separator
-        _uri += 'content='
-        _uri += encodeURIComponent(_value);
-        _separator = '&';
-        _value = options.categoriesId;
-        _uri += _separator
-        _uri += 'categoriesId='
-        _uri += encodeURIComponent(_value);
-        _separator = '&';
-        return (await this.executor({uri: _uri, method: 'POST'})) as Promise<ErisResult<Void>>;
+        return (await this.executor({uri: _uri, method: 'POST', body: options.body})) as Promise<ErisResult<Void>>;
     }
     
     readonly updateNote: (options: NoteControllerOptions['updateNote']) => Promise<
@@ -109,9 +92,7 @@ export type NoteControllerOptions = {
         readonly id: string
     }, 
     'newNote': {
-        readonly title: string, 
-        readonly content: string, 
-        readonly categoriesId: string
+        readonly body: NewNoteRequest
     }, 
     'updateNote': {
         readonly id?: number | undefined, 

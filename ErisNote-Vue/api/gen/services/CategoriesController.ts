@@ -1,6 +1,5 @@
 import type {Executor} from '../';
-import type {CategoriesDto} from '../model/dto/';
-import type {Dynamic_Note} from '../model/dynamic/';
+import type {CategoriesDto, NoteDto} from '../model/dto/';
 import type {ErisResult, Void} from '../model/static/';
 
 export class CategoriesController {
@@ -14,12 +13,10 @@ export class CategoriesController {
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
         _value = options.id;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'id='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
+        _uri += _separator
+        _uri += 'id='
+        _uri += encodeURIComponent(_value);
+        _separator = '&';
         return (await this.executor({uri: _uri, method: 'POST'})) as Promise<ErisResult<Void>>;
     }
     
@@ -31,11 +28,11 @@ export class CategoriesController {
     }
     
     readonly getCategoriesNotes: (options: CategoriesControllerOptions['getCategoriesNotes']) => Promise<
-        ErisResult<ReadonlyArray<Dynamic_Note>>
+        ErisResult<ReadonlyArray<NoteDto['CategoriesController/NOTE_IN_CATEGORIES']>>
     > = async(options) => {
         let _uri = '/categories/';
         _uri += encodeURIComponent(options.id);
-        return (await this.executor({uri: _uri, method: 'GET'})) as Promise<ErisResult<ReadonlyArray<Dynamic_Note>>>;
+        return (await this.executor({uri: _uri, method: 'GET'})) as Promise<ErisResult<ReadonlyArray<NoteDto['CategoriesController/NOTE_IN_CATEGORIES']>>>;
     }
     
     readonly newCategories: (options: CategoriesControllerOptions['newCategories']) => Promise<
@@ -62,6 +59,6 @@ export type CategoriesControllerOptions = {
         readonly name: string
     }, 
     'deleteCategories': {
-        readonly id?: number | undefined
+        readonly id: string
     }
 }

@@ -1,4 +1,8 @@
 export type NoteDto = {
+    'CategoriesController/NOTE_IN_CATEGORIES': {
+        readonly id: string;
+        readonly title: string;
+    }, 
     'NoteController/NOTE_DETAIL': {
         readonly id: string;
         readonly content: string;

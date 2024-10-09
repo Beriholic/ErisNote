@@ -268,9 +268,11 @@ const saveNote = async (v) => {
   }
 
   const resp = await api.noteController.newNote({
-    content: v,
-    title: title,
-    categoriesId: curNote.value.categories.id
+    body: {
+      title: title,
+      content: v,
+      categoriesId: curNote.value.categories.id
+    }
   })
 
   if (resp.code !== 200) {
