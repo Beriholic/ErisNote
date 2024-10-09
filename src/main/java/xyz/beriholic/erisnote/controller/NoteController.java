@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.babyfish.jimmer.client.FetchBy;
 import org.babyfish.jimmer.sql.fetcher.Fetcher;
 import org.springframework.web.bind.annotation.*;
-import xyz.beriholic.erisnote.model.dto.NewNoteRequest;
 import xyz.beriholic.erisnote.model.entity.Fetchers;
 import xyz.beriholic.erisnote.model.entity.Note;
+import xyz.beriholic.erisnote.model.entity.dto.NewNoteInput;
 import xyz.beriholic.erisnote.model.except.ErisResult;
 import xyz.beriholic.erisnote.repository.NoteRepository;
 
@@ -68,13 +68,13 @@ public class NoteController {
 
     @PostMapping("/new")
     public ErisResult<Void> newNote(
-            @RequestBody NewNoteRequest dto
+            @RequestBody NewNoteInput input
     ) {
-        log.info("title: {}, content: {}, categoriesId: {}", dto.getTitle(), dto.getContent(), dto.getCategoriesId());
+        log.info("title: {}, content: {}, categoriesId: {}", input.getTitle(), input.getContent(), input.getCategoriesId());
 
         var uid = StpUtil.getLoginIdAsLong();
 
-        noteRepository.saveNote(uid, Long.parseLong(dto.getCategoriesId()), dto.getTitle(), dto.getContent());
+        noteRepository.saveNote(uid, Long.parseLong(input.getCategoriesId()), input.getTitle(), input.getContent());
 
         return ErisResult.ok();
     }

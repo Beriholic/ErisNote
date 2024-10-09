@@ -1,6 +1,6 @@
 import type {Executor} from '../';
 import type {NoteDto} from '../model/dto/';
-import type {ErisResult, NewNoteRequest, Void} from '../model/static/';
+import type {ErisResult, NewNoteInput, Void} from '../model/static/';
 
 export class NoteController {
     
@@ -92,7 +92,7 @@ export type NoteControllerOptions = {
         readonly id: string
     }, 
     'newNote': {
-        readonly body: NewNoteRequest
+        readonly body: NewNoteInput
     }, 
     'updateNote': {
         readonly id?: number | undefined, 
