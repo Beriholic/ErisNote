@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root,
+:host {
+    --md-sys-color-background: rgb( 246 251 243);
+    --md-sys-color-on-background: rgb( 23 29 25);
+    --md-sys-color-surface: rgb( 245 251 243);
+    --md-sys-color-surface-dim: rgb( 213 220 212);
+    --md-sys-color-surface-bright: rgb( 245 251 243);
+    --md-sys-color-surface-container-lowest: rgb( 255 255 255);
+    --md-sys-color-surface-container-low: rgb( 239 245 238);
+    --md-sys-color-surface-container: rgb( 233 240 232);
+    --md-sys-color-surface-container-high: rgb( 228 234 226);
+    --md-sys-color-surface-container-highest: rgb( 222 228 221);
+    --md-sys-color-on-surface: rgb( 23 29 25);
+    --md-sys-color-surface-variant: rgb( 217 230 218);
+    --md-sys-color-on-surface-variant: rgb( 62 74 65);
+    --md-sys-color-inverse-surface: rgb( 44 50 45);
+    --md-sys-color-inverse-on-surface: rgb( 236 242 235);
+    --md-sys-color-outline: rgb( 110 122 112);
+    --md-sys-color-outline-variant: rgb( 189 202 190);
+    --md-sys-color-shadow: rgb( 0 0 0);
+    --md-sys-color-scrim: rgb( 0 0 0);
+    --md-sys-color-surface-tint: rgb( 0 109 66);
+    --md-sys-color-primary: rgb( 0 92 56);
+    --md-sys-color-on-primary: rgb( 255 255 255);
+    --md-sys-color-primary-container: rgb( 0 134 83);
+    --md-sys-color-on-primary-container: rgb( 255 255 255);
+    --md-sys-color-inverse-primary: rgb( 105 220 157);
+    --md-sys-color-secondary: rgb( 62 103 78);
+    --md-sys-color-on-secondary: rgb( 255 255 255);
+    --md-sys-color-secondary-container: rgb( 194 239 208);
+    --md-sys-color-on-secondary-container: rgb( 41 81 58);
+    --md-sys-color-tertiary: rgb( 51 72 165);
+    --md-sys-color-on-tertiary: rgb( 255 255 255);
+    --md-sys-color-tertiary-container: rgb( 90 110 204);
+    --md-sys-color-on-tertiary-container: rgb( 255 255 255);
+    --md-sys-color-error: rgb( 186 26 26);
+    --md-sys-color-on-error: rgb( 255 255 255);
+    --md-sys-color-error-container: rgb( 255 218 214);
+    --md-sys-color-on-error-container: rgb( 65 0 2);
+}
