@@ -7,7 +7,7 @@ interface SideBarOptionState {
 
 const useSideBarOptionState = create<SideBarOptionState>((set) => ({
   option: "note",
-  change: (value: string) => set({ option: value }),
+  change: (value) => set({ option: value }),
 }));
 
 export default useSideBarOptionState;

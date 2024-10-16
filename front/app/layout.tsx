@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Eris Note",
@@ -12,8 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-background">{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-background">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

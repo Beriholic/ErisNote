@@ -26,7 +26,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/Sidebar.tsx"
+    "components/Sidebar.tsx",
+    "stores/status/DarkModeStats.js",
+    "stores/status/SideBarOptionState.ts"
   ],
   "exclude": ["node_modules"]
 }
