@@ -1,0 +1,6 @@
+.md-editor {
+    color: var(--md-sys-color-on-surface);
+    --md-color: var(--md-sys-color-on-surface);
+    --md-bk-color: var(--md-sys-color-surface);
+    --md-bk-color-outstand: var(--md-sys-color-surface-variant);
+}

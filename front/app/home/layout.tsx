@@ -1,3 +1,5 @@
+import React from "react";
+import NoteListManager from "@/components/NoteListManager";
 import Sidebar from "@/components/Sidebar";
 
 export default function HomePageLayout({
@@ -6,13 +8,10 @@ export default function HomePageLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-row h-screen">
-      <div>
-        <Sidebar />
-      </div>
-      <div>
-        <main>{children}</main>
-      </div>
+    <div className="flex flex-row h-[calc(100lvh-48px)]  relative">
+      <Sidebar />
+      <NoteListManager />
+      <main className="overflow-scroll w-full">{children}</main>
     </div>
   );
 }

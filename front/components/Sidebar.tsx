@@ -28,16 +28,13 @@ export default function Sidebar() {
   };
 
   const openStyle =
-    "flex flex-col gap-8 p-2 bg-surface-variant w-14 m-4 mb-0 mr-0 items-center h-[calc(100lvh-48px)] rounded-l-2xl";
+    "flex flex-col gap-8 p-2 bg-surface-variant w-14 m-4 mb-0 mr-0 items-center h-[calc(100lvh-48px)] rounded-l-2xl transition-all duration-200  ease-in-out";
   const closeStyle =
-    "flex flex-col gap-8 p-2 bg-surface-variant w-14 m-4 mb-0 mr-2 rounded-2xl items-center h-[calc(100lvh-48px)]";
+    "flex flex-col gap-8 p-2 bg-surface-variant w-14 m-4 mb-0 mr-2 rounded-2xl items-center h-[calc(100lvh-48px)] transition-all duration-200 ease-in-out delay-200";
 
-  const animateStyle = "transition-all duration-600  ease-in";
   return (
     <div className="relative">
-      <div
-        className={(sideBarOpen ? openStyle : closeStyle) + " " + animateStyle}
-      >
+      <div className={`${sideBarOpen ? openStyle : closeStyle} select-none`}>
         <div>
           <IconButton onClick={sideBarOpenToggle}>
             <Icon className="">Side_Navigation</Icon>
