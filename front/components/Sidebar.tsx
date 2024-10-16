@@ -32,9 +32,12 @@ export default function Sidebar() {
   const closeStyle =
     "flex flex-col gap-8 p-2 bg-surface-variant w-14 m-4 mb-0 mr-2 rounded-2xl items-center h-[calc(100lvh-48px)]";
 
+  const animateStyle = "transition-all duration-600  ease-in";
   return (
     <div className="relative">
-      <div className={sideBarOpen ? openStyle : closeStyle}>
+      <div
+        className={(sideBarOpen ? openStyle : closeStyle) + " " + animateStyle}
+      >
         <div>
           <IconButton onClick={sideBarOpenToggle}>
             <Icon className="">Side_Navigation</Icon>
@@ -64,7 +67,7 @@ export default function Sidebar() {
         </div>
         <div className="absolute bottom-4">
           <IconButton
-            className={darkMode ? "" : "bg-background"}
+            className={darkMode ? "bg-background" : ""}
             onClick={themeToggle}
           >
             <Icon>Dark_Mode</Icon>
