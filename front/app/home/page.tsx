@@ -74,19 +74,43 @@ export default function HomePage() {
     noteOnWait,
   ]);
 
-  const saveNoteContent = async () => {
-    const resp = await api.noteController.newNote({
+  const saveOrUpdateNote = async () => {
+    if (noteInfo.id === "") {
+      const resp = await api.noteController.newNote({
+        body: {
+          title: noteInfo.title,
+          categoriesId: noteInfo.categoryId,
+          content: noteContent,
+        },
+      });
+      if (resp.code !== 200) {
+        alert("保存失败");
+        console.log(resp.msg);
+      }
+      noteOnWait();
+      return;
+    }
+
+    const title =
+      noteContent.length > 0
+        ? noteContent
+            .split("\n")[0]
+            .replace(/^#+\s*/, "")
+            .trim()
+        : "未命名笔记";
+
+    const resp = await api.noteController.updateNote({
       body: {
-        title: noteInfo.title,
+        id: noteInfo.id,
+        title: title,
         categoriesId: noteInfo.categoryId,
         content: noteContent,
       },
     });
     if (resp.code !== 200) {
-      alert("保存失败");
+      alert("更新失败");
       console.log(resp.msg);
     }
-
     noteOnWait();
   };
 
@@ -96,7 +120,7 @@ export default function HomePage() {
         <ErisEditor
           value={noteContent}
           onChange={(text) => setNoteContent(text)}
-          onSave={saveNoteContent}
+          onSave={saveOrUpdateNote}
         />
       </div>
     </HomePageLayout>

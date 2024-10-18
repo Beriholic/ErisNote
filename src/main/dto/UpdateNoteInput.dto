@@ -1,0 +1,8 @@
+export xyz.beriholic.erisnote.model.entity.Note
+
+input UpdateNoteInput {
+    id: String
+    title: String
+    content: String
+    categoriesId: String
+}

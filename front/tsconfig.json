@@ -28,7 +28,8 @@
     ".next/types/**/*.ts",
     "components/Sidebar.tsx",
     "stores/status/DarkModeStats.js",
-    "stores/status/SideBarOptionState.ts"
+    "stores/status/SideBarOptionState.ts",
+    "app/demo/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

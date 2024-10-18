@@ -6,6 +6,12 @@ import { useEffect, useState } from "react";
 import NoteListCard from "./NoteListCard";
 import { motion } from "framer-motion";
 import { NoteStatusEnum, useNoteState } from "@/stores/status/NoteState";
+import { Menu, Item, useContextMenu } from "react-contexify";
+import "react-contexify/ReactContexify.css";
+import "@/components/styles/context-menu.css";
+
+const NoteListContextMenuId = "NoteList";
+
 export default function NoteListManager() {
   const openStyle =
     "flex flex-col bg-surface-variant m-4 mr-0 ml-0 rounded-r-2xl p-4 pr-8 h-[calc(100vh-48px)] w-96 transition-all duration-200 ease-in-out delay-200";
@@ -20,6 +26,19 @@ export default function NoteListManager() {
   const [categoryList, setCategoryList] = useState<
     Array<CategoriesDto["CategoriesController/CATEGORIES_BASE"]>
   >([]);
+
+  const { show: showNoteListContextMenu } = useContextMenu({
+    id: NoteListContextMenuId,
+  });
+
+  const [contextMenuNoteId, setContextMenuNoteId] = useState("");
+
+  const displayNoteListContextMenu = (e: React.MouseEvent, id: string) => {
+    showNoteListContextMenu({
+      event: e,
+    });
+    setContextMenuNoteId(id);
+  };
 
   const fetchNoteList = async () => {
     const resp = await api.noteController.getNoteList();
@@ -71,6 +90,19 @@ export default function NoteListManager() {
     newNote({ title, categoryId });
   };
 
+  const DeleteNote = async () => {
+    if (contextMenuNoteId === "") return;
+    const resp = await api.noteController.deleteNote({
+      id: contextMenuNoteId,
+    });
+    if (resp.code !== 200) {
+      alert("删除笔记失败");
+      console.log(resp.msg);
+    }
+
+    fetchNoteList();
+    setContextMenuNoteId("");
+  };
   useEffect(() => {
     if (noteStatus === NoteStatusEnum.WAIT) {
       fetchNoteList();
@@ -99,7 +131,6 @@ export default function NoteListManager() {
           }}
         />
       )}
-
       <div
         className={`${sideBarOpen ? openStyle : closeStyle} overflow-y-scroll`}
       >
@@ -145,16 +176,23 @@ export default function NoteListManager() {
             }`}
           >
             {noteList.map((note) => (
-              <NoteListCard
+              <div
                 key={note.id}
-                note={note}
-                onClick={() => {
-                  loadNote({ id: note.id });
-                }}
-              />
+                onContextMenu={(e) => displayNoteListContextMenu(e, note.id)}
+              >
+                <NoteListCard
+                  note={note}
+                  onClick={() => {
+                    loadNote({ id: note.id });
+                  }}
+                />
+              </div>
             ))}
           </div>
         </div>
+        <Menu id={NoteListContextMenuId}>
+          <Item onClick={DeleteNote}>删除</Item>
+        </Menu>
       </div>
     </>
   );

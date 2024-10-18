@@ -1,6 +1,11 @@
 import type {Executor} from '../';
 import type {NoteDto} from '../model/dto/';
-import type {ErisResult, NewNoteInput, Void} from '../model/static/';
+import type {
+    ErisResult, 
+    NewNoteInput, 
+    UpdateNoteInput, 
+    Void
+} from '../model/static/';
 
 export class NoteController {
     
@@ -17,7 +22,7 @@ export class NoteController {
         _uri += 'id='
         _uri += encodeURIComponent(_value);
         _separator = '&';
-        return (await this.executor({uri: _uri, method: 'GET'})) as Promise<ErisResult<Void>>;
+        return (await this.executor({uri: _uri, method: 'DELETE'})) as Promise<ErisResult<Void>>;
     }
     
     readonly getNoteDetail: (options: NoteControllerOptions['getNoteDetail']) => Promise<
@@ -52,37 +57,7 @@ export class NoteController {
         ErisResult<Void>
     > = async(options) => {
         let _uri = '/note/update';
-        let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
-        let _value: any = undefined;
-        _value = options.id;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'id='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.title;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'title='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.content;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'content='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.categoriesId;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'categoriesId='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Promise<ErisResult<Void>>;
+        return (await this.executor({uri: _uri, method: 'PUT', body: options.body})) as Promise<ErisResult<Void>>;
     }
 }
 
@@ -95,10 +70,7 @@ export type NoteControllerOptions = {
         readonly body: NewNoteInput
     }, 
     'updateNote': {
-        readonly id?: number | undefined, 
-        readonly title?: string | undefined, 
-        readonly content?: string | undefined, 
-        readonly categoriesId?: number | undefined
+        readonly body: UpdateNoteInput
     }, 
     'deleteNote': {
         readonly id: string

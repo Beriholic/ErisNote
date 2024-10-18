@@ -5,6 +5,7 @@ export enum NoteStatusEnum {
   SEND,
   RECEIVCED,
   LOADING,
+  DELETE,
 }
 
 interface NoteStatus {
@@ -22,6 +23,7 @@ interface NoteStatus {
   loadNote: ({ id }: { id: string }) => void;
   onReceive: () => void;
   onWait: () => void;
+  onDelete: () => void;
 }
 
 export const useNoteState = create<NoteStatus>((set) => ({
@@ -50,4 +52,5 @@ export const useNoteState = create<NoteStatus>((set) => ({
       content: "",
       status: NoteStatusEnum.WAIT,
     })),
+  onDelete: () => set(() => ({ status: NoteStatusEnum.DELETE })),
 }));
