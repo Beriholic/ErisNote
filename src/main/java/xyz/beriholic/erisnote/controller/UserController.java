@@ -1,6 +1,8 @@
 package xyz.beriholic.erisnote.controller;
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,17 +26,19 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @SaIgnore
     @PostMapping("/register")
     public ErisResult<Void> register(
             @RequestBody UserRegisterInput req
     ) {
-        Long uid = StpUtil.getLoginIdAsLong();
+        var uid = IdUtil.getSnowflakeNextId();
 
         var hashPassword = PasswordUtil.encrypt(req.getPassword());
         userRepository.saveUser(uid, req.getUsername(), hashPassword);
         return ErisResult.ok();
     }
 
+    @SaIgnore
     @PostMapping("/login")
     public ErisResult<Void> login(
             @RequestBody UserRegisterInput req

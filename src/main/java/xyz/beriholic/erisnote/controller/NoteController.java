@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import xyz.beriholic.erisnote.model.entity.Fetchers;
 import xyz.beriholic.erisnote.model.entity.Note;
 import xyz.beriholic.erisnote.model.entity.dto.NewNoteInput;
+import xyz.beriholic.erisnote.model.entity.dto.UpdateNoteInput;
 import xyz.beriholic.erisnote.model.except.ErisResult;
 import xyz.beriholic.erisnote.repository.NoteRepository;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class NoteController {
     private static final Fetcher<Note> NOTE_WITH_TITLE = Fetchers.NOTE_FETCHER.title();
     private static final Fetcher<Note> NOTE_DETAIL = Fetchers.NOTE_FETCHER
+            .title()
             .content()
             .categories(
                     Fetchers.CATEGORIES_FETCHER.name()
@@ -79,27 +81,25 @@ public class NoteController {
         return ErisResult.ok();
     }
 
-    @GetMapping("/update")
+    @PutMapping("/update")
     public ErisResult<Void> updateNote(
-            @RequestParam Long id,
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String content,
-            @RequestParam(required = false) Long categoriesId
+            @RequestBody UpdateNoteInput req
     ) {
         var uid = StpUtil.getLoginIdAsLong();
+        log.info("id: {}, title: {}, content: {}, categoriesId: {}", req.getId(), req.getTitle(), req.getContent(), req.getCategoriesId());
 
         noteRepository.updateNote(
-                id,
+                Long.parseLong(req.getId()),
                 uid,
-                title,
-                content,
-                categoriesId
+                req.getTitle(),
+                req.getContent(),
+                Long.parseLong(req.getCategoriesId())
         );
 
         return ErisResult.ok();
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public ErisResult<Void> deleteNote(@RequestParam String id) {
         var uid = StpUtil.getLoginIdAsLong();
 

@@ -1,6 +1,6 @@
 export xyz.beriholic.erisnote.model.entity.User
 
-UserRegisterInput{
+input UserRegisterInput{
     username: String
     password: String
 }
