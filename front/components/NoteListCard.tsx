@@ -8,7 +8,10 @@ export default function NoteListCard({
   onClick: () => void;
 }>) {
   return (
-    <div className="flex bg-surface-bright border-2 border-on-surface rounded-2xl p-4  transition-transform hover:scale-110">
+    <div
+      className="flex bg-surface-bright border-2 border-on-surface rounded-2xl p-4  transition-transform hover:scale-110"
+      onClick={onClick}
+    >
       <div className="text-on-surface">{note.title}</div>
     </div>
   );

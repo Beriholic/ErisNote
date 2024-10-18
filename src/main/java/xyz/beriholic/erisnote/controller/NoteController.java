@@ -19,6 +19,7 @@ import java.util.List;
 public class NoteController {
     private static final Fetcher<Note> NOTE_WITH_TITLE = Fetchers.NOTE_FETCHER.title();
     private static final Fetcher<Note> NOTE_DETAIL = Fetchers.NOTE_FETCHER
+            .title()
             .content()
             .categories(
                     Fetchers.CATEGORIES_FETCHER.name()

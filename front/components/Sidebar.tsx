@@ -62,7 +62,7 @@ export default function Sidebar() {
           </IconButton>
           <div className="text-center text-sm">分类</div>
         </div>
-        <div className="absolute bottom-4">
+        <div className="absolute bottom-4 bg-surface-bright rounded-full">
           <IconButton
             className={darkMode ? "bg-background" : ""}
             onClick={themeToggle}
